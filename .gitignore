@@ -1,4 +1,6 @@
 node_modules/
 .env
+Instructions.md
+Rubrics.md
 *.log
 .DS_Store
