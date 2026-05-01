@@ -54,11 +54,6 @@ app.get(`${API_PREFIX}/health`, async (req, res) => {
   );
 });
 
-// Auth routes - placeholder
-app.post(`${API_PREFIX}/auth/login`, (req, res) => {
-  res.json({ message: "Login endpoint - to be implemented" });
-});
-
 // Authentication routes
 app.use(`${API_PREFIX}/auth`, authRoutes);
 

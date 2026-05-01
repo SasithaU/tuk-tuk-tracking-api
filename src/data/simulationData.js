@@ -13,7 +13,7 @@ const PROVINCES = [
   { name: "North Western Province", code: "NWP" },
   { name: "North Central Province", code: "NCP" },
   { name: "Uva Province", code: "UP" },
-  { name: "Sabaragamuwa Province", code: "SP" }, // Note: Code conflict with Southern, will handle
+  { name: "Sabaragamuwa Province", code: "SBP" },
 ];
 
 // Sri Lankan Districts Data (25 districts distributed across provinces)
@@ -193,12 +193,12 @@ const DRIVER_LAST_NAMES = [
 
 // Generate random Sri Lankan phone number
 const generatePhoneNumber = () => {
-  const prefixes = ["070", "071", "072", "075", "076", "077", "078"];
+  const prefixes = ["70", "71", "72", "75", "76", "77", "78"];
   const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
   const number = Math.floor(Math.random() * 10000000)
     .toString()
     .padStart(7, "0");
-  return `${prefix}${number}`;
+  return `+94${prefix}${number}`;
 };
 
 // Generate Sri Lankan driving license number

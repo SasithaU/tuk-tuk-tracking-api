@@ -198,7 +198,7 @@ const seedDrivers = async () => {
       name: `${firstName} ${lastName}`,
       licenseNumber: generateLicenseNumber(),
       contactNumber: generatePhoneNumber(),
-      email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@gmail.com`,
+      email: `${firstName.toLowerCase().replace(/\s+/g, "")}.${lastName.toLowerCase().replace(/\s+/g, "")}@gmail.com`,
       dateOfBirth: new Date(
         1970 + Math.floor(Math.random() * 30),
         Math.floor(Math.random() * 12),

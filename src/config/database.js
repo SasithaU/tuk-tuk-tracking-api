@@ -18,6 +18,12 @@ const DB_CONFIG = {
 
 // Connection URL
 const getConnectionURL = () => {
+  // Use MongoDB Atlas URI if provided
+  if (process.env.MONGODB_URI) {
+    return process.env.MONGODB_URI;
+  }
+
+  // Otherwise, use local MongoDB configuration
   const { HOST, PORT, NAME, USERNAME, PASSWORD } = DB_CONFIG;
 
   if (USERNAME && PASSWORD) {

@@ -111,15 +111,16 @@ userSchema.methods.hashPassword = async function (password) {
 // Pre-save middleware to hash password
 userSchema.pre("save", async function (next) {
   // Only hash the password if it has been modified (or is new)
-  if (!this.isModified("passwordHash")) return next();
+  if (!this.isModified("passwordHash")) {
+    return;
+  }
 
   try {
     const saltRounds = 12;
     // Hash password with cost of 12
     this.passwordHash = await bcrypt.hash(this.passwordHash, saltRounds);
-    next();
   } catch (error) {
-    next(error);
+    throw error;
   }
 });
 
