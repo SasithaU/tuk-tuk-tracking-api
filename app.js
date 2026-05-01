@@ -1,16 +1,92 @@
 const express = require("express");
+const { API_PREFIX } = require("./src/constants");
+const { sendSuccess } = require("./src/utils/response");
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+// ==================== MIDDLEWARE ====================
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Basic route
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  next();
+});
+
+// ==================== ROUTES ====================
+
+// Health check / API info route
 app.get("/", (req, res) => {
-  res.json({ message: "Tuk-Tuk Tracking API is running" });
+  sendSuccess(
+    res,
+    {
+      api: "Tuk-Tuk Tracking API",
+      version: "1.0.0",
+      status: "running",
+      timestamp: new Date().toISOString(),
+    },
+    "API is operational",
+  );
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// API v1 routes (to be implemented)
+app.get(`${API_PREFIX}/health`, (req, res) => {
+  sendSuccess(res, { status: "healthy" }, "API is healthy");
 });
+
+// Auth routes - placeholder
+app.post(`${API_PREFIX}/auth/login`, (req, res) => {
+  res.json({ message: "Login endpoint - to be implemented" });
+});
+
+// Provinces routes - placeholder
+app.get(`${API_PREFIX}/provinces`, (req, res) => {
+  res.json({ message: "Get provinces - to be implemented" });
+});
+
+// Districts routes - placeholder
+app.get(`${API_PREFIX}/districts`, (req, res) => {
+  res.json({ message: "Get districts - to be implemented" });
+});
+
+// Police Stations routes - placeholder
+app.get(`${API_PREFIX}/police-stations`, (req, res) => {
+  res.json({ message: "Get police stations - to be implemented" });
+});
+
+// Vehicles routes - placeholder
+app.get(`${API_PREFIX}/vehicles`, (req, res) => {
+  res.json({ message: "Get vehicles - to be implemented" });
+});
+
+// Locations routes - placeholder
+app.post(`${API_PREFIX}/locations/ping`, (req, res) => {
+  res.json({ message: "Submit location ping - to be implemented" });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    error: {
+      code: "NOT_FOUND",
+      message: `Route ${req.method} ${req.path} not found`,
+    },
+  });
+});
+
+// ==================== START SERVER ====================
+app.listen(PORT, () => {
+  console.log(`\n${"=".repeat(50)}`);
+  console.log(`🚗 Tuk-Tuk Tracking API Server`);
+  console.log(`📍 Running on: http://localhost:${PORT}`);
+  console.log(
+    `📚 API Documentation: http://localhost:${PORT}${API_PREFIX}/docs`,
+  );
+  console.log(`❤️  Health Check: http://localhost:${PORT}${API_PREFIX}/health`);
+  console.log(`${"=".repeat(50)}\n`);
+});
+
+module.exports = app;
