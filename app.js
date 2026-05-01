@@ -1,9 +1,16 @@
 const express = require("express");
 const { API_PREFIX } = require("./src/constants");
 const { sendSuccess } = require("./src/utils/response");
+const { connectDB } = require("./src/config/database");
+
+// Import routes
+const authRoutes = require("./src/routes/auth");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// ==================== DATABASE CONNECTION ====================
+connectDB();
 
 // ==================== MIDDLEWARE ====================
 app.use(express.json());
@@ -32,14 +39,28 @@ app.get("/", (req, res) => {
 });
 
 // API v1 routes (to be implemented)
-app.get(`${API_PREFIX}/health`, (req, res) => {
-  sendSuccess(res, { status: "healthy" }, "API is healthy");
+app.get(`${API_PREFIX}/health`, async (req, res) => {
+  const { healthCheck } = require("./src/config/database");
+  const dbStatus = await healthCheck();
+
+  sendSuccess(
+    res,
+    {
+      status: "healthy",
+      database: dbStatus,
+      timestamp: new Date().toISOString(),
+    },
+    "API health check",
+  );
 });
 
 // Auth routes - placeholder
 app.post(`${API_PREFIX}/auth/login`, (req, res) => {
   res.json({ message: "Login endpoint - to be implemented" });
 });
+
+// Authentication routes
+app.use(`${API_PREFIX}/auth`, authRoutes);
 
 // Provinces routes - placeholder
 app.get(`${API_PREFIX}/provinces`, (req, res) => {
@@ -86,6 +107,9 @@ app.listen(PORT, () => {
     `📚 API Documentation: http://localhost:${PORT}${API_PREFIX}/docs`,
   );
   console.log(`❤️  Health Check: http://localhost:${PORT}${API_PREFIX}/health`);
+  console.log(
+    `🔐 Authentication: http://localhost:${PORT}${API_PREFIX}/auth/login`,
+  );
   console.log(`${"=".repeat(50)}\n`);
 });
 
