@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: tuk-tuk-tracking-api
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 24h
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 7d
+      # The MONGO_URI must be provided in the Render Dashboard manually
+      - key: MONGO_URI
+        sync: false
