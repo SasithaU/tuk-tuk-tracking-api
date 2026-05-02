@@ -27,8 +27,7 @@ const locationPingSchema = new mongoose.Schema(
     },
     timestamp: {
       type: Date,
-      required: [true, "Timestamp is required"],
-      index: true,
+      default: Date.now
     },
     accuracy: {
       type: Number,
@@ -90,13 +89,6 @@ locationPingSchema.index(
   },
 );
 
-// Pre-save middleware to ensure timestamp is set
-locationPingSchema.pre("save", function (next) {
-  if (!this.timestamp) {
-    this.timestamp = new Date();
-  }
-  next();
-});
 
 // Static method to get latest ping for a vehicle
 locationPingSchema.statics.getLatestPing = function (vehicleId) {

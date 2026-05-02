@@ -26,4 +26,8 @@ https://tuk-tuk-tracking-api.vercel.app/
 
 ## GitHub Repository
 
-[GitHub URL Here]
+https://github.com/SasithaU/tuk-tuk-tracking-api
+
+## AI Aides
+
+- Gemini 3.1 Pro: Used for setting up Swagger API Docs, writing simulation scripts, and preparing deployment configuration files.
