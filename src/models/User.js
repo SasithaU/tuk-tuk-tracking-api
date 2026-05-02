@@ -143,8 +143,6 @@ userSchema.statics.findByCredentials = async function (username, password) {
 };
 
 // Indexes for faster queries
-userSchema.index({ username: 1 });
-userSchema.index({ email: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ assignedStationId: 1 });
 userSchema.index({ assignedDistrictId: 1 });

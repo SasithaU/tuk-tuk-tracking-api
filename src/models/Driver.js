@@ -143,7 +143,6 @@ driverSchema.virtual("licenseStatus").get(function () {
 });
 
 // Indexes for faster queries
-driverSchema.index({ licenseNumber: 1 });
 driverSchema.index({ contactNumber: 1 });
 driverSchema.index({ email: 1 });
 driverSchema.index({ vehicleId: 1 });

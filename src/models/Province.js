@@ -44,7 +44,5 @@ provinceSchema.virtual("districtCount", {
 });
 
 // Index for faster queries
-provinceSchema.index({ name: 1 });
-provinceSchema.index({ code: 1 });
 
 module.exports = mongoose.model("Province", provinceSchema);

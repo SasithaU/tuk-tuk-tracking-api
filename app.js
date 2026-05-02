@@ -5,6 +5,15 @@ const { connectDB } = require("./src/config/database");
 
 // Import routes
 const authRoutes = require("./src/routes/auth");
+const provinceRoutes = require("./src/routes/provinces");
+const districtRoutes = require("./src/routes/districts");
+const policeStationRoutes = require("./src/routes/police-stations");
+const vehicleRoutes = require("./src/routes/vehicles");
+const driverRoutes = require("./src/routes/drivers");
+const locationRoutes = require("./src/routes/locations");
+
+// Import middleware
+const { verifyTokenMiddleware } = require("./src/middleware/auth");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -24,7 +33,7 @@ app.use((req, res, next) => {
 
 // ==================== ROUTES ====================
 
-// Health check / API info route
+// Health check / API info route (no auth required)
 app.get("/", (req, res) => {
   sendSuccess(
     res,
@@ -54,36 +63,35 @@ app.get(`${API_PREFIX}/health`, async (req, res) => {
   );
 });
 
-// Authentication routes
+// Authentication routes (no auth required for login/refresh)
 app.use(`${API_PREFIX}/auth`, authRoutes);
 
-// Provinces routes - placeholder
-app.get(`${API_PREFIX}/provinces`, (req, res) => {
-  res.json({ message: "Get provinces - to be implemented" });
-});
+// Province and district API routes (require authentication)
+console.log("Province routes required");
+console.log("Mounting province routes...");
+app.use(`${API_PREFIX}/provinces`, provinceRoutes); // Temporarily remove middleware for testing
+console.log("Province routes mounted");
+app.use(`${API_PREFIX}/districts`, verifyTokenMiddleware, districtRoutes);
+app.use(
+  `${API_PREFIX}/police-stations`,
+  verifyTokenMiddleware,
+  policeStationRoutes,
+);
 
-// Districts routes - placeholder
-app.get(`${API_PREFIX}/districts`, (req, res) => {
-  res.json({ message: "Get districts - to be implemented" });
-});
+// Vehicle and driver management routes (require authentication)
+console.log("Mounting vehicle routes...");
+app.use(`${API_PREFIX}/vehicles`, vehicleRoutes); // Temporarily remove middleware for testing
+console.log("Vehicle routes mounted");
+app.use(`${API_PREFIX}/drivers`, verifyTokenMiddleware, driverRoutes);
 
-// Police Stations routes - placeholder
-app.get(`${API_PREFIX}/police-stations`, (req, res) => {
-  res.json({ message: "Get police stations - to be implemented" });
-});
-
-// Vehicles routes - placeholder
-app.get(`${API_PREFIX}/vehicles`, (req, res) => {
-  res.json({ message: "Get vehicles - to be implemented" });
-});
-
-// Locations routes - placeholder
-app.post(`${API_PREFIX}/locations/ping`, (req, res) => {
-  res.json({ message: "Submit location ping - to be implemented" });
-});
+// Location tracking routes (require authentication)
+app.use(`${API_PREFIX}/locations`, verifyTokenMiddleware, locationRoutes);
 
 // 404 handler
 app.use((req, res) => {
+  console.log(
+    `404 HANDLER: ${req.method} ${req.path} - Original URL: ${req.originalUrl}`,
+  );
   res.status(404).json({
     success: false,
     error: {

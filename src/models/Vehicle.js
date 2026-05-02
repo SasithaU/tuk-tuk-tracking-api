@@ -95,8 +95,6 @@ vehicleSchema.virtual("pingCount", {
 });
 
 // Indexes for faster queries
-vehicleSchema.index({ registrationNumber: 1 });
-vehicleSchema.index({ deviceId: 1 });
 vehicleSchema.index({ driverId: 1 });
 vehicleSchema.index({ status: 1 });
 vehicleSchema.index({ createdAt: -1 }); // For recent vehicles

@@ -80,7 +80,6 @@ const locationPingSchema = new mongoose.Schema(
 
 // Compound indexes for efficient queries
 locationPingSchema.index({ vehicleId: 1, timestamp: -1 }); // Vehicle history queries
-locationPingSchema.index({ timestamp: -1 }); // Recent pings across all vehicles
 locationPingSchema.index({ vehicleId: 1, timestamp: -1, accuracy: 1 }); // Filtered history
 
 // TTL index to automatically delete old pings after 90 days

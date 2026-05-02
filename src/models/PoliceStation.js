@@ -102,6 +102,5 @@ policeStationSchema.virtual("officerCount", {
 // Indexes for faster queries
 policeStationSchema.index({ districtId: 1 });
 policeStationSchema.index({ name: 1 });
-policeStationSchema.index({ code: 1 });
 
 module.exports = mongoose.model("PoliceStation", policeStationSchema);
