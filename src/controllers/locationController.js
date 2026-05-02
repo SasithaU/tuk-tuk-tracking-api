@@ -87,7 +87,7 @@ const submitLocationPing = async (req, res) => {
     return sendError(
       res,
       ERROR_CODES.INTERNAL_ERROR,
-      "Unable to submit location ping",
+      `Unable to submit location ping: ${error.message}`,
     );
   }
 };

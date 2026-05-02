@@ -22,7 +22,7 @@ http://localhost:3000/api/v1/docs
 
 ## Deployment
 
-[Deployment URL Here]
+https://tuk-tuk-tracking-api.vercel.app/
 
 ## GitHub Repository
 

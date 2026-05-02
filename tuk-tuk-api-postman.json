@@ -1,0 +1,138 @@
+{
+	"info": {
+		"_postman_id": "c1f7a834-0371-477c-a49e-4c7b8e5c102b",
+		"name": "Tuk-Tuk Tracking API",
+		"description": "Simulation requests for Tuk-Tuk tracking system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Login (Admin)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if (jsonData.success) {",
+							"    pm.environment.set(\"auth_token\", jsonData.data.token);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"Admin@123\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/auth/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			}
+		},
+		{
+			"name": "2. Get Vehicles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if (jsonData.success && jsonData.data.length > 0) {",
+							"    pm.environment.set(\"vehicle_id\", jsonData.data[0]._id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/vehicles",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"vehicles"
+					]
+				}
+			}
+		},
+		{
+			"name": "3. Submit Location Ping",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"vehicleId\": \"{{vehicle_id}}\",\n  \"latitude\": 6.9271,\n  \"longitude\": 79.8612,\n  \"timestamp\": \"{{$isoTimestamp}}\",\n  \"accuracy\": 15,\n  \"speed\": 45,\n  \"heading\": 180,\n  \"source\": \"GPS\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/locations/ping",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"locations",
+						"ping"
+					]
+				}
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000"
+		}
+	]
+}
