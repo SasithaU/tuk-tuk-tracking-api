@@ -15,6 +15,9 @@ const locationRoutes = require("./src/routes/locations");
 // Import middleware
 const { verifyTokenMiddleware } = require("./src/middleware/auth");
 
+// Import swagger config
+const { setupSwagger } = require("./src/config/swagger");
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -32,6 +35,9 @@ app.use((req, res, next) => {
 });
 
 // ==================== ROUTES ====================
+
+// Swagger API Documentation
+setupSwagger(app, API_PREFIX);
 
 // Health check / API info route (no auth required)
 app.get("/", (req, res) => {

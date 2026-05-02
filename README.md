@@ -18,7 +18,7 @@ This API provides endpoints for managing vehicles, drivers, administrative bound
 
 ## API Documentation
 
-[Swagger URL Here]
+http://localhost:3000/api/v1/docs
 
 ## Deployment
 
