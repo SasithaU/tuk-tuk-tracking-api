@@ -18,7 +18,8 @@ This API provides endpoints for managing vehicles, drivers, administrative bound
 
 ## API Documentation
 
-http://localhost:3000/api/v1/docs
+- **Live URL:** https://tuk-tuk-tracking-api.vercel.app/api/v1/docs
+- **Local URL:** http://localhost:3000/api/v1/docs
 
 ## Deployment
 
@@ -27,7 +28,3 @@ https://tuk-tuk-tracking-api.vercel.app/
 ## GitHub Repository
 
 https://github.com/SasithaU/tuk-tuk-tracking-api
-
-## AI Aides
-
-- Gemini 3.1 Pro: Used for setting up Swagger API Docs, writing simulation scripts, and preparing deployment configuration files.

@@ -43,7 +43,18 @@ const options = {
 const specs = swaggerJsdoc(options);
 
 const setupSwagger = (app, apiPrefix) => {
-  app.use(`${apiPrefix}/docs`, swaggerUi.serve, swaggerUi.setup(specs));
+  // Use CDN links for Vercel/Serverless deployment compatibility
+  const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui.min.css";
+  const customJs = [
+    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-bundle.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-standalone-preset.min.js"
+  ];
+
+  app.use(
+    `${apiPrefix}/docs`, 
+    swaggerUi.serve, 
+    swaggerUi.setup(specs, { customCssUrl: CSS_URL, customJs })
+  );
 };
 
 module.exports = {
